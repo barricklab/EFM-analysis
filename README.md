@@ -1,2 +1,2 @@
-# FRI-failure
-Code for analyzing sequencing data from Freshman Research Initiative genetic failure mode experiments
+# EFM-analysis
+Code for analyzing evolutionary failure mode datasets
