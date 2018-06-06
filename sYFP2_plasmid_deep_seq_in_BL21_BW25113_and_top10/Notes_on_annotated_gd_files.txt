@@ -1,0 +1,29 @@
+notes for breseq run which generated annotated .gd files
+
+#1 Reads
+	Sequencing was done on molecular index libraries. Consensus reads generated with consensus_reads_with_stacks.py using default options
+	
+	Runfile for all 46 samples generated with following command:
+	for gdname in 01_Data/*.gd;do name=$(echo $gdname|sed 's/.gd//'|sed 's/01_Data\///');echo "consensus_reads_with_stacks.py -f1 02_Downloads/$name*_R1_* -f2 02_Downloads/$name*_R2_* -p $name";done > commands
+
+#2 breseq
+	All strains were mapped against plasmid {sc_psb1c3.gb}, while allowing 2 different junction only references (the strain reference sequence{dh10B.gbk | |}, and transposable element reference sequence compiled by igem/fri team {Transposable_Elements_-_2017-07-05.gb})
+
+	breseq run with following options:
+		-j 4 
+		-p 
+		--polymorphism-minimum-coverage-each-strand 0 
+		--polymorphism-bias-cutoff 0 
+		--polymorphism-score-cutoff 0 
+		--polymorphism-frequency-cutoff 0.0001 
+		--junction-indel-split-length 2 
+		--polymorphism-reject-indel-homopolymer-length 0 
+		--polymorphism-reject-surrounding-homopolymer-length 0 
+
+	Runfile for all 46 samples generated with following 3 commands:
+	
+		for gdname in 01_Data/*BW25113*.gd;do name=$(echo $gdname|sed 's/.gd//'|sed 's/01_Data\///');echo "breseq -j 4 -p --polymorphism-minimum-coverage-each-strand 0 --polymorphism-bias-cutoff 0 --polymorphism-score-cutoff 0 --polymorphism-frequency-cutoff 0.0001 --junction-indel-split-length 2 --polymorphism-reject-indel-homopolymer-length 0 --polymorphism-reject-surrounding-homopolymer-length 0 -o 03_Output/$name -g 01_Data/$name.gd -r 02_Downloads/sc_psb1c3.gb -s 02_Downloads/Transposable_Elements_-_2017-07-05.gb -s 02_Downloads/NZ_CP009273.1_Eco_BW25113.gbk 02_Con_Reads/$name.consensus.fastq --keep-intermediates >& 04_Logs/$name.log.txt";done >> commands
+		
+		for gdname in 01_Data/*BL21*.gd;do name=$(echo $gdname|sed 's/.gd//'|sed 's/01_Data\///');echo "breseq -j 4 -p --polymorphism-minimum-coverage-each-strand 0 --polymorphism-bias-cutoff 0 --polymorphism-score-cutoff 0 --polymorphism-frequency-cutoff 0.0001 --junction-indel-split-length 2 --polymorphism-reject-indel-homopolymer-length 0 --polymorphism-reject-surrounding-homopolymer-length 0 -o 03_Output/$name -g 01_Data/$name.gd -r 02_Downloads/sc_psb1c3.gb -s 02_Downloads/Transposable_Elements_-_2017-07-05.gb -s 02_Downloads/BL21_DE3.gbk 02_Con_Reads/$name.consensus.fastq --keep-intermediates >& 04_Logs/$name.log.txt";done >> commands
+		
+		for gdname in 01_Data/*Top10*.gd;do name=$(echo $gdname|sed 's/.gd//'|sed 's/01_Data\///');echo "breseq -j 4 -p --polymorphism-minimum-coverage-each-strand 0 --polymorphism-bias-cutoff 0 --polymorphism-score-cutoff 0 --polymorphism-frequency-cutoff 0.0001 --junction-indel-split-length 2 --polymorphism-reject-indel-homopolymer-length 0 --polymorphism-reject-surrounding-homopolymer-length 0 -o 03_Output/$name -g 01_Data/$name.gd -r 02_Downloads/sc_psb1c3.gb -s 02_Downloads/Transposable_Elements_-_2017-07-05.gb -s 02_Downloads/dh10B.gbk 02_Con_Reads/$name.consensus.fastq --keep-intermediates >& 04_Logs/$name.log.txt";done >> commands
